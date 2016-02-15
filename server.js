@@ -1,11 +1,8 @@
 var restify     =   require('restify');
 var mongojs     =   require('mongojs');
-var mongoose = require('mongoose');
 var morgan  	=   require('morgan');
 //bucketlistapp database, appUsers and bucketLists are collections (tables ish)
-var configDB = require('./config/database.js');
-mongoose.connect(configDB.url);
-var db          =   mongojs('bucketlistapp', ['appUsers','bucketLists']);
+var db          =   mongojs('mongodb://remote-fyp-db:cccsadIJASfdpsapautyaxsYYa$@ec2-52-30-112-75.eu-west-1.compute.amazonaws.com:27017/dummyDB', ['appUsers','bucketLists']);
 var server      =   restify.createServer();
 
 //init restify and enable logging (morgan)
@@ -23,8 +20,8 @@ server.use(function(req,res,next){
 });
 
 //start up server
-server.listen(process.env.PORT || 9804, function(){
-  console.log("Server started at",process.env.PORT || 9804);
+server.listen(process.env.PORT || 8080, function(){
+  console.log("Server started at",process.env.PORT || 8080);
 });
 
 var manageUsers = require('./auth/manageUser')(server, db);
